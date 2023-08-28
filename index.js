@@ -1,26 +1,7 @@
 const express = require('express');
 const app = express();
-const PORT = 3000;
 
-// Define a function expression that takes a path array as input.
-function getExpression(path) {
-    const operators = { "plus": "+", "minus": "-", "into": "*", }
-
-    let ex = ""
-
-    path.forEach(element => {
-        const value = operators[element]
-        if (value === undefined) {
-            ex += element;
-        } else {
-            ex += value;
-        }
-    });
-
-    return ex;
-}
-
-// Array to store history
+// Array to store history in memory
 const history = [];
 
 // Middleware to parse mathematical operations from URL
@@ -65,12 +46,20 @@ app.get('/history', (req, res) => {
     res.json(history);
 });
 
+// Route to display API documentation
+app.get('/documentation', (req, res) => {
+    const documentationHtml = `
+        <!-- Your HTML documentation here -->
+    `;
+    res.send(documentationHtml);
+});
+
 // Universal route for handling 404
 app.get('*', (req, res) => {
     res.status(404).send('404 Page Not Found');
 });
 
-// Start the server
+const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
